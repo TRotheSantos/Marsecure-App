@@ -1,4 +1,4 @@
 # hseproject
 
-A University project. Yafet Suleman and Tilmann Rothe Santos
+A University project. Yafet Suleman, Ghita Benyaich and Tilmann Rothe Santos
 
