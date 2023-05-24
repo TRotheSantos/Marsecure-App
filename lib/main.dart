@@ -37,8 +37,17 @@ class _MyAppState extends State<MyApp> {
             target: _center,
             zoom: 11.0,
           ),
+          mapType: MapType.normal, // Set map type to custom
         ),
       ),
     );
   }
 }
+
+
+/* ideas: - add second page with entries of news
+          - connect the mentioned streets in the entries with the map to change the colour
+          - user friendly UI and design
+
+          ++ functionality of route planer of only safe routes
+ */
