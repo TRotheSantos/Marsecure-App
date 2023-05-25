@@ -1,36 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 import "./entrieslist.css";
 
-class Entrieslist extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            total: 0,
-            result: [],
-            page: 0,
-            numberByPage: 0,
-            totalPages: 0,
-            isFetched: false,
-        };
-    }
+function Entrieslist() {
+    const [isFetched, setIsFetched] = useState(false);
+    const [state, setState] = useState({});
 
-    componentDidMount() {
+    useEffect(() => {
+        console.log("useEffect");
         fetch("/api/entries")
             .then((result) => result.json())
             .then((data) => {
-                this.state = {
-                    total: data.total,
-                    result: data.result,
-                    page: data.page,
-                    numberByPage: data.numberByPage,
-                    totalPages: data.totalPages,
-                    isFetched: true,
-                };
+                if (!isFetched) {
+                    setIsFetched(true);
+                    setState(data);
+                }
             });
-    }
+    });
 
-    render() {
-        if (!this.state.isFetched) return null;
+    const renderMap = () => {
         return (
             <div className="entriesTable">
                 <div className="entriesBody">
@@ -40,18 +28,39 @@ class Entrieslist extends React.Component {
                         <div className="entry">Date</div>
                         <div className="entry">Description</div>
                     </div>
-                    {this.state.result.map((el) => {
-                        <div className="entryRow">
-                            <div className="entry">{[el.street, el.coord]}</div>
-                            ;<div className="entry">{el.subject}</div>;
-                            <div className="entry">{el.date}</div>;
-                            <div className="entry">{el.description}</div>;
-                        </div>;
+                    {state.result.map((el) => {
+                        return (
+                            <div className="entryRow" key={Math.random()}>
+                                <div className="entry" key={Math.random()}>
+                                    {[el.street, Array.from(el.coord)]}
+                                </div>
+                                <div className="entry" key={Math.random()}>
+                                    {el.subject}
+                                </div>
+                                <div className="entry" key={Math.random()}>
+                                    {el.date}
+                                </div>
+                                <div className="entry" key={Math.random()}>
+                                    {el.description}
+                                </div>
+                            </div>
+                        );
                     })}
                 </div>
             </div>
         );
-    }
+    };
+
+    return isFetched ? (
+        renderMap()
+    ) : (
+        <ClipLoader
+            loading={isFetched}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+        />
+    );
 }
 
 export default Entrieslist;
