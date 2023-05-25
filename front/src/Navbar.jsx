@@ -6,7 +6,7 @@ class Navbar extends React.Component {
         return (
             <nav>
                 <h1 className="navBar">Navbar</h1>
-                <ul class="rowList">
+                <ul className="rowList">
                     <li>
                         <Link to="/">Main</Link>
                     </li>

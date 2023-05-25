@@ -1,6 +1,6 @@
 import "./App.css";
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import {
     GoogleMap,
     InfoWindow,
@@ -57,15 +57,11 @@ function App() {
 
     return isLoaded ? (
         <div className="App">
-            <Router>
-                {/* <div className="Navbar"> */}
-                <Navbar />
-                <Routes>
-                    <Route path="/" element={<App />} />
-                    <Route path="/entries" element={<Entrieslist />} />
-                </Routes>
-                {/* </div> */}
-            </Router>
+            <Navbar />
+            <Routes>
+                {/* <Route path="*" element={<App />} /> */}
+                <Route path="/entries" element={<Entrieslist />} />
+            </Routes>
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
