@@ -18,7 +18,6 @@ class Entrieslist extends React.Component {
         fetch("/api/entries")
             .then((result) => result.json())
             .then((data) => {
-                console.log(data);
                 this.state = {
                     total: data.total,
                     result: data.result,
