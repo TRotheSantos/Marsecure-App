@@ -29,13 +29,12 @@ const places = [
 ];
 
 function App() {
-    // let entries;
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: "AIzaSyCDB95dhVP6ZyBgqoIMW1LCGEFWcs_k_EM",
     });
 
-    fetch("api/entries", {
+    fetch("/api/entries", {
         method: "GET",
         headers: { "Content-type": "application/json" },
     })
@@ -44,46 +43,22 @@ function App() {
         })
         .then((data) => console.log(data));
 
-    // const [map, setMap] = React.useState(null);
-
-    // const onLoad = React.useCallback(function callback(map) {
-    //     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    //     // map.setZoom(zoom);
-
-    //     setMap(map);
-    // }, []);
-
-    // const onUnmount = React.useCallback(function callback(map) {
-    //     setMap(null);
-    // }, []);
-
     return isLoaded ? (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
             zoom={zoom}
-            // onLoad={onLoad}
-            // onUnmount={onUnmount}
         >
-            {
-                /* Child components, such as markers, info windows, etc. */
-                /* We should create the objects in defined functions, not
-                map them in the return. Just google how, or we can discuss
-                together. */
-                places.map((place) => {
-                    return (
-                        <MarkerF
-                            key={place.key}
-                            label={place.name} //Not super pretty, wanted to see if it works
-                            position={place.coord}
-                            icon={place.icon}
-                        ></MarkerF>
-                    );
-                })
-            }
-            {/* <pre>
-                <code>{entries}</code>
-            </pre> */}
+            {places.map((place) => {
+                return (
+                    <MarkerF
+                        key={place.key}
+                        label={place.name}
+                        position={place.coord}
+                        icon={place.icon}
+                    ></MarkerF>
+                );
+            })}
         </GoogleMap>
     ) : (
         <></>
