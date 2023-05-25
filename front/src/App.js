@@ -1,68 +1,55 @@
 import "./App.css";
-import React, { useState } from "react";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import {
-    GoogleMap,
-    InfoWindow,
-    // Marker,
-    useJsApiLoader,
-} from "@react-google-maps/api";
-import Navbar from "./Navbar";
-import Entrieslist from "./entrieslist";
+// import { GoogleMap, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
+import Navbar from "./Navbar.jsx";
+import Entrieslist from "./entrieslist.jsx";
+import Map from "./map.jsx";
 
-const containerStyle = {
-    width: "100vw",
-    height: "96vh",
-};
+// const containerStyle = {
+//     width: "100vw",
+//     height: "96vh",
+// };
 
-const zoom = 12;
-const center = {
-    lat: 43.295619380624494,
-    lng: 5.373698165000376,
-};
+// const zoom = 12;
+// const center = {
+//     lat: 43.295619380624494,
+//     lng: 5.373698165000376,
+// };
 
 function App() {
-    // fetch("/api/entries", {
-    //     method: "GET",
-    //     headers: { "Content-type": "application/json" },
-    // })
-    //     .then((result) => {
-    //         return result.json();
-    //     })
-    //     .then((data) => console.log(data));
+    // const [option, setOption] = useState("");
+    // const [description, setDescription] = useState("");
 
-    const [option, setOption] = useState("");
-    const [description, setDescription] = useState("");
+    // const { isLoaded } = useJsApiLoader({
+    //     id: "google-map-script",
+    //     googleMapsApiKey: "AIzaSyCDB95dhVP6ZyBgqoIMW1LCGEFWcs_k_EM",
+    // });
 
-    const { isLoaded } = useJsApiLoader({
-        id: "google-map-script",
-        googleMapsApiKey: "AIzaSyCDB95dhVP6ZyBgqoIMW1LCGEFWcs_k_EM",
-    });
+    // const [infoWindow, setInfoWindow] = useState(null);
 
-    const [infoWindow, setInfoWindow] = useState(null);
+    // const handleMapClick = (event) => {
+    //     const clickedPosition = {
+    //         lat: event.latLng.lat(),
+    //         lng: event.latLng.lng(),
+    //     };
+    //     setInfoWindow(clickedPosition);
+    // };
 
-    const handleMapClick = (event) => {
-        const clickedPosition = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng(),
-        };
-        setInfoWindow(clickedPosition);
-    };
+    // const handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     console.log(option);
+    //     console.log(description);
+    // };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(option);
-        console.log(description);
-    };
-
-    return isLoaded ? (
+    return (
         <div className="App">
             <Navbar />
             <Routes>
-                {/* <Route path="*" element={<App />} /> */}
+                <Route path="*" element={<Map />} />
                 <Route path="/entries" element={<Entrieslist />} />
             </Routes>
-            <GoogleMap
+            {/* <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
                 zoom={zoom}
@@ -71,7 +58,6 @@ function App() {
                 {infoWindow && (
                     <InfoWindow position={infoWindow}>
                         <form>
-                            {/* onSubmit={handleSubmit} */}
                             <div>
                                 New Entry at ({infoWindow.lat}/{infoWindow.lng})
                             </div>
@@ -112,10 +98,11 @@ function App() {
                         </form>
                     </InfoWindow>
                 )}
-            </GoogleMap>
+            </GoogleMap> */}
         </div>
-    ) : (
-        "Loading..."
+        //  : (
+        //     "Loading..."
+        // )
     );
 }
 

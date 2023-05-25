@@ -36,6 +36,7 @@ const apiServ = {
             const number = req.query.number;
             const page = req.query.page;
             const resEntries = business.getEntries(number, page);
+            console.log(resEntries);
             res.json(resEntries);
         });
 
