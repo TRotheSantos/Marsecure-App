@@ -7,7 +7,6 @@ function Entrieslist() {
     const [state, setState] = useState({});
 
     useEffect(() => {
-        console.log("useEffect");
         fetch("/api/entries")
             .then((result) => result.json())
             .then((data) => {
@@ -20,32 +19,35 @@ function Entrieslist() {
 
     const renderMap = () => {
         return (
-            <div className="entriesTable">
-                <div className="entriesBody">
-                    <div className="headerRow">
-                        <div className="entry">Location</div>
-                        <div className="entry">Subject</div>
-                        <div className="entry">Date</div>
-                        <div className="entry">Description</div>
+            <div className="tableWrapper">
+                <div className="entriesTable">
+                    <div className="entriesBody">
+                        <div className="headerRow">
+                            <div className="entry">Location</div>
+                            <div className="entry">Subject</div>
+                            <div className="entry">Date</div>
+                            <div className="entry">Description</div>
+                        </div>
+                        <br />
+                        {state.result.map((el) => {
+                            return (
+                                <div className="entryRow" key={Math.random()}>
+                                    <div className="entry" key={Math.random()}>
+                                        {[el.street, Array.from(el.coord)]}
+                                    </div>
+                                    <div className="entry" key={Math.random()}>
+                                        {el.subject}
+                                    </div>
+                                    <div className="entry" key={Math.random()}>
+                                        {el.date}
+                                    </div>
+                                    <div className="entry" key={Math.random()}>
+                                        {el.description}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
-                    {state.result.map((el) => {
-                        return (
-                            <div className="entryRow" key={Math.random()}>
-                                <div className="entry" key={Math.random()}>
-                                    {[el.street, Array.from(el.coord)]}
-                                </div>
-                                <div className="entry" key={Math.random()}>
-                                    {el.subject}
-                                </div>
-                                <div className="entry" key={Math.random()}>
-                                    {el.date}
-                                </div>
-                                <div className="entry" key={Math.random()}>
-                                    {el.description}
-                                </div>
-                            </div>
-                        );
-                    })}
                 </div>
             </div>
         );

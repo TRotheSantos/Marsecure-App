@@ -13,9 +13,6 @@ class Navbar extends React.Component {
                     <li>
                         <Link to="/entries">Latest entries</Link>
                     </li>
-                    <li>
-                        <Link to="/team">The team</Link>
-                    </li>
                 </ul>
             </nav>
         );
