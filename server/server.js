@@ -1,2 +1,13 @@
-var apiServer = require("./api/apiServer.js");
-apiServer(4000);
+const apiServ=require("./api/apiServer");
+
+const port=4000;
+
+
+
+function main(){
+      apiServ.start(port);
+    
+
+}
+
+main();

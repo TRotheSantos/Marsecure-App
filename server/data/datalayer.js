@@ -1,102 +1,97 @@
+const { json } = require("express");
 const fs = require("fs");
+const _ = require("underscore");
+const filename ="./data/entries.json";
 
-/**
- * @typedef {'street'|'light/signs'|'hygiene'|'construction'|'cars'} SubjectOptions
- *
- * @typedef {Object} Entry
- * @property {String|undefined} id
- * @property {String|undefined} date //Date in ISO 8601 Extended Format
- * @property {SubjectOptions} subject
- * @property {String} street
- * @property {{lat: Number, lng: Number}|undefined} coord
- * @property {String} description
- */
 
-const file = "./data/entries.json";
+const defaultNumber = 10;
+const defaultPage = 1;
+const maxNumber = 130;
 
-class Entries {
-    constructor() {}
+let dataLayer = {
+    getAllEntries : function(){
+        const data = fs.readFileSync(filename);
 
-    /**
-     * @returns {Entries[]}
-     */
-    getAllEntries() {
-        return JSON.parse(fs.readFileSync(file));
-    }
+        const entries = JSON.parse(data);
 
-    /**
-     * @param {Entry[]} parsedData
-     */
-    writeToFile(parsedData) {
-        fs.writeFileSync(file, JSON.stringify(parsedData));
-    }
+        return entries;
+    },
+    getNextId : function() {
+        //read json file
+        let rawdata = fs.readFllesync(filename);
+        //parse to object
+        let entries = json.parse(rawdata);
+        //get max id
+        const maxId = Math.max.apply(Math,entries.app(filename));
+        //return max id + 1;
+        return maxId + 1;
+    },
 
-    // /**
-    //  * @param {Number} id
-    //  * @param {Entry[]} parsedData
-    //  * @returns {Number}
-    //  */
-    // getIndexById(id, parsedData) {
-    //     const index = parsedData.findIndex((entry) => {
-    //         return entry.id == id;
-    //     });
-    //     // Remember to check getIndexById != -1
-    //     return index;
-    // }
+    getEntries : function(number,page){
+        {
+            let rawdata = fs.readFileSync(filename);
+            let entries = JSON.parse(rawdata);
+            const total = entries.length;
 
-    /**
-     * @returns {String}
-     */
-    getNewId() {
-        return Math.random().toString(10).slice(2);
-    }
+            if(number && page){
+                entries = entries.slice((page-1)*number,page*number);//calcul à revoir
+            }
 
-    /**
-     * @param {Entry} entry
-     */
-    newEntry(entry) {
-        /**
-         * Convert to array to preserve order
-         * of proprties in the .json file
-         */
-        const entryArray = Object.entries(entry);
-        entryArray.unshift(["date", new Date().toISOString()]);
-        entryArray.unshift(["id", this.getNewId()]);
-        const completeEntry = Object.fromEntries(entryArray);
+            const result = {
+                total : total,
+                result : entries
+            };
 
-        const parsedData = this.getAllEntries();
-        parsedData.push(completeEntry);
+            return result;
+        }
+    },
 
-        this.writeToFile(parsedData);
-    }
+    /*addCustomers : function(newCustomer){
+        let data = fs.readFileSync(filename, "utf-8");
+        let added = JSON.parse(data);
+        added.push(newCustomer);
 
-    // /**
-    //  * @param {Number} id
-    //  * @param {User} newUser
-    //  */
-    // modifyUser(id, newUser) {
-    //     const parsedData = this.getAllUsers();
-    //     const index = this.getIndexById(id, parsedData);
+        fs.writeFileSync(filename, JSON.stringify(added), (error) => {
+            if(error) throw error;
+        });
 
-    //     for (let property in parsedData[index]) {
-    //         if (newUser[property] == undefined) continue;
-    //         parsedData[index][property] = newUser[property];
-    //     }
+        return added;
 
-    //     this.writeToFile(parsedData);
-    // }
+    }*/
+    addEntries: function(newEntry) {
+        let data = fs.readFileSync(filename, "utf-8");
+        let entries = JSON.parse(data);
+        
+        const total = entries.length;
+        let id = total + 1;
+        
+        var d = new Date();
+        var date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        var hours = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+        var fullDate = date + ' ' + hours;
+      
+        const entry = {
+          id: id,
+          street: newEntry.street,
+          subject: newEntry.subject,
+          description: newEntry.description,
+          coord: {
+            lat: newEntry.coord.lat,
+            lng: newEntry.coord.lng,
+          },
+          date: fullDate,
+        };
+      
+        entries.push(entry);
+      
+        fs.writeFileSync(filename, JSON.stringify(entries), (error) => {
+          if (error) throw error;
+        });
+      
+        return entries;
+      }
+      
 
-    // /**
-    //  * @param {Number} id
-    //  */
-    // deleteUser(id) {
-    //     const parsedData = this.getAllUsers();
-    //     const index = this.getIndexById(id, parsedData);
 
-    //     parsedData.splice(index, 1);
-
-    //     this.writeToFile(parsedData);
-    // }
-}
-
-module.exports = Entries;
+};
+    module.exports = dataLayer;

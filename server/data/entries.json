@@ -1,10 +1,1 @@
-[
-    {
-        "id": "hej",
-        "date": "2014-11-11T12:20:53.154Z",
-        "subject": "street",
-        "street": "bajs",
-        "coord": { "lat": 43.29, "lng": 5.37 },
-        "description": "Test entry"
-    }
-]
+[{"id":1,"date":"2023-05-25","subject":"street","street":"Main Street","coord":{"lat":324.7667,"lng":8758.1287},"description":"Pothole on the road"},{"id":2,"street":"castellane","subject":"cars","description":"parking cars","coord":{"lat":324.7667,"lng":8758.1287},"date":"2023-5-25 15:42:36"},{"id":3,"street":"castellane","subject":"the street","description":"patholes","coord":{"lat":324.7667,"lng":8758.1287},"date":"2023-5-25 15:43:23"},{"id":4,"street":"saintcharles","subject":"odor","description":"stinks lol","coord":{"lat":324.7667,"lng":8758.1287},"date":"2023-5-25 15:45:0"}]
