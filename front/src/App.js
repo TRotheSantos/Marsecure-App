@@ -19,6 +19,16 @@ const center = {
 
 
 function App() {
+
+    fetch("/api/entries", {
+        method: "GET",
+        headers: { "Content-type": "application/json" },
+    })
+        .then((result) => {
+            return result.json();
+        })
+        .then((data) => console.log(data));
+
     const [option, setOption] = useState('');
     const [description, setDescription] = useState('');
 
@@ -36,29 +46,6 @@ function App() {
         };
         setInfoWindow(clickedPosition);
     };
-
-        // // Adds a new Entry when Submitting
-        // const handleSubmit = event => {
-        //     event.preventDefault(); // no reloading of page
-        //     const newEntry = {
-        //       id:   0,
-        //       type: type,
-        //       description: description
-        //     };
-        //     fetch('http://localhost:4000/api', {
-        //       method: 'POST',
-        //       headers: {
-        //         'Content-Type': 'application/json'
-        //       },
-        //       body: JSON.stringify(newEntry)
-        //     })
-        //       .then(response => response.json())
-              
-        //       .catch(error => {
-        //         console.log(error)
-        //         alert('An error occurred while adding the user. Please try again later.');
-        //       }); 
-        //   };
 
         const handleSubmit = event => {
             event.preventDefault();
@@ -119,11 +106,8 @@ function App() {
                     </InfoWindow>
                     )}
                 </GoogleMap>
-        </div>
-        
-    ) : (
-        <>Loading...</>
-    );
+        </div>):("Loading...")
+    
 }
 
 export default App;

@@ -18,22 +18,23 @@ module.exports = function apiServer(port) {
         next();
     });
 
-    app.get("/api/entries", (req, res) => {
+    app.get("/api/entries", (_req, res) => {
         //Calculate entries to show
         const parsedData = Entry.getAllEntries();
-        const entriesPerPage = Number(req.query.size);
-        const currentPage = Number(req.query.page);
-        const offset = (currentPage - 1) * entriesPerPage;
+        console.log(parsedData);
+        // const entriesPerPage = Number(req.query.size);
+        // const currentPage = Number(req.query.page);
+        // const offset = (currentPage - 1) * entriesPerPage;
 
-        //Final page
-        const maxPage = Math.ceil(parsedData.length / entriesPerPage);
+        // //Final page
+        // const maxPage = Math.ceil(parsedData.length / entriesPerPage);
 
-        const response = {
-            entries: parsedData.slice(offset, offset + entriesPerPage),
-            maxPage: maxPage,
-        };
+        // const response = {
+        //     entries: parsedData.slice(offset, offset + entriesPerPage),
+        //     maxPage: maxPage,
+        // };
 
-        res.json(response);
+        res.json(parsedData);
     });
 
     app.post("/api/newEntry", (req, _res) => {
