@@ -29,10 +29,20 @@ const places = [
 ];
 
 function App() {
+    // let entries;
     const { isLoaded } = useJsApiLoader({
         id: "google-map-script",
         googleMapsApiKey: "AIzaSyCDB95dhVP6ZyBgqoIMW1LCGEFWcs_k_EM",
     });
+
+    fetch("api/entries", {
+        method: "GET",
+        headers: { "Content-type": "application/json" },
+    })
+        .then((result) => {
+            return result.json();
+        })
+        .then((data) => console.log(data));
 
     // const [map, setMap] = React.useState(null);
 
@@ -71,7 +81,9 @@ function App() {
                     );
                 })
             }
-            <></>
+            {/* <pre>
+                <code>{entries}</code>
+            </pre> */}
         </GoogleMap>
     ) : (
         <></>

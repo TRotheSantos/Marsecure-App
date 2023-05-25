@@ -1,0 +1,10 @@
+[
+    {
+        "id": "hej",
+        "date": "2014-11-11T12:20:53.154Z",
+        "subject": "street",
+        "street": "bajs",
+        "coord": { "lat": 43.29, "lng": 5.37 },
+        "description": "Test entry"
+    }
+]
