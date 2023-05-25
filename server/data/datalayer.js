@@ -8,7 +8,7 @@ const fs = require("fs");
  * @property {String|undefined} date //Date in ISO 8601 Extended Format
  * @property {SubjectOptions} subject
  * @property {String} street
- * @property {{lat: Number, lng: Number}|undefined} coordinates
+ * @property {{lat: Number, lng: Number}|undefined} coord
  * @property {String} description
  */
 
@@ -60,8 +60,8 @@ class Entries {
          * of proprties in the .json file
          */
         const entryArray = Object.entries(entry);
+        entryArray.unshift(["date", new Date().toISOString()]);
         entryArray.unshift(["id", this.getNewId()]);
-        entryArray.splice(5, 0, ["created_at", new Date().toISOString()]);
         const completeEntry = Object.fromEntries(entryArray);
 
         const parsedData = this.getAllEntries();
