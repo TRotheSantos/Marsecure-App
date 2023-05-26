@@ -5,6 +5,7 @@ const app = express(); //initalisation de l'application web
 
 const business = require("../business/business");
 var bodyParser = require("body-parser");
+const { getAllStreets } = require("../data/datalayer");
 
 const apiServ = {
     start: function (port) {
@@ -38,6 +39,13 @@ const apiServ = {
             const resEntries = business.getEntries(number, page);
             console.log(resEntries);
             res.json(resEntries);
+        });
+
+        //donner tous les rues
+        app.get("/api/streets", function (req, res) {
+            const streets = getAllStreets;
+            console.log(streets);
+            res.json(streets);
         });
 
         app.post("/api/entries", function (req, res) {

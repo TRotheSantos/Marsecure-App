@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { GoogleMap, InfoWindow, useJsApiLoader, Polyline } from "@react-google-maps/api";
 import ClipLoader from "react-spinners/ClipLoader";
 import "./map.css";
-import "./server/data/datalayer.js"
-
 
 const containerStyle = {
     width: "100vw",
@@ -43,8 +41,20 @@ function Map() {
             })
             .catch((error) => {
                 console.error("Failed to fetch street coordinates:", error);
-              });
-        console.log(paths);
+            });
+        
+
+            fetch("/api/streets")
+            .then(response => response.json())
+            .then(data => {
+              // Access the streets array
+              streetNames = data;
+              console.log("hello");
+              console.log(streetNames);
+            })
+            .catch(error => {
+              console.error("Failed to fetch streets:", error);
+            }); 
     }, []);
 
     // Provides DEBUT and FIN coordinates of a given street 
@@ -144,6 +154,7 @@ function Map() {
         setInfoWindow(clickedPosition);
         setInfoWindowKey((prevKey) => prevKey + 1); // Change the key to reopen the InfoWindow
     };
+
 
     // Adds a new Entry when Submitting
     const handleSubmit = event => {
