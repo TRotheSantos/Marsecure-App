@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { GoogleMap, InfoWindow, useJsApiLoader, Polyline } from "@react-google-maps/api";
 import ClipLoader from "react-spinners/ClipLoader";
 import "./map.css";
+import "./server/data/datalayer.js"
+
 
 const containerStyle = {
     width: "100vw",
@@ -131,7 +133,14 @@ function Map() {
         const clickedPosition = {
           lat: event.latLng.lat(),
           lng: event.latLng.lng(),
-    };
+          street: ""
+        };
+        const street = getStreetNameFromCoordinates(clickedPosition.lat, clickedPosition.lng);
+        street.then((result) => {
+            // Access the resolved value of the Promise
+            console.log(result);
+            clickedPosition.street = result;
+          });
         setInfoWindow(clickedPosition);
         setInfoWindowKey((prevKey) => prevKey + 1); // Change the key to reopen the InfoWindow
     };
@@ -141,13 +150,13 @@ function Map() {
         event.preventDefault(); // no reloading of page
         const newEntry = {
             id: 0,
-            street: getStreetNameFromCoordinates(infoWindow.lat, infoWindow.lng).then((streetName) => {return streetName}),
+            street: infoWindow.street,
             subject: option,
             description: description,
             date: 0,
             coord:{lat: infoWindow.lat, lng: infoWindow.lng },
-            
         };
+        console.log("newEntry");
         console.log(newEntry);
         setDescription("");
         // Confirmation Window
@@ -168,7 +177,7 @@ function Map() {
             }); 
         };
 
-          const getStreetNameFromCoordinates = async (latitude, longitude) => {
+        const getStreetNameFromCoordinates = async (latitude, longitude) => {
             const geocoder = new window.google.maps.Geocoder();
           
             const location = new window.google.maps.LatLng(latitude, longitude);
@@ -202,7 +211,7 @@ function Map() {
                     {infoWindow && (
                     <InfoWindow key={infoWindowKey} position={infoWindow}>
                     <form onSubmit={handleSubmit} >     
-                    <div>New Entry at  ({infoWindow.lat}/{infoWindow.lng})</div><pre></pre>
+                    <div>New Entry at  ({infoWindow.lat}/{infoWindow.lng}-{infoWindow.street})</div><pre></pre>
                     <label>
                         What have you noticed?: <pre></pre>
                         <select value={option} onChange={handleOptionChange}>
@@ -233,14 +242,14 @@ function Map() {
         {/* {console.log("Street Paths:", streetPaths) */}
           
         {paths.map((promise, index) => (
-  <Polyline
-    key={index}
-    path={[promise.startCoordinates, promise.endCoordinates]}
-    options={{
-      strokeColor: "red",
-      strokeOpacity: 10,
-      strokeWeight: 14,
-    }}
+        <Polyline
+            key={index}
+            path={[promise.startCoordinates, promise.endCoordinates]}
+            options={{
+            strokeColor: "red",
+            strokeOpacity: 10,
+            strokeWeight: 14,
+            }}
   />
 ))}
 
