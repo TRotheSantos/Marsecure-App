@@ -5,6 +5,7 @@ const app = express(); //initalisation de l'application web
 
 const business = require("../business/business");
 var bodyParser = require("body-parser");
+const { getAllStreets } = require("../data/datalayer");
 
 const apiServ = {
     start: function (port) {
@@ -40,6 +41,13 @@ const apiServ = {
             res.json(resEntries);
         });
 
+        //donner tous les rues
+        app.get("/api/streets", function (req, res) {
+            const streets = getAllStreets;
+            console.log(streets);
+            res.json(streets);
+        });
+
         app.post("/api/entries", function (req, res) {
             const total = business.getEntries();
             let id = total.total + 1;
@@ -52,16 +60,16 @@ const apiServ = {
 
             const newEntry = {
                 id: id,
-                street: req.query.street,
-                subject: req.query.subject,
-                description: req.query.description,
+                street: req.body.street,
+                subject: req.body.subject,
+                description: req.body.description,
                 date: fullDate,
                 coord: {
-                    lat: Number(req.query.lat),
-                    lng: Number(req.query.lng),
+                    lat: Number(req.body.lat),
+                    lng: Number(req.body.lng),
                 },
             };
-
+            console.log(newEntry);
             const updatedEntries = business.addEntries(newEntry);
 
             res.json(updatedEntries);

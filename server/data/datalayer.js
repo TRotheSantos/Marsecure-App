@@ -8,6 +8,12 @@ const filename = "./data/entries.json";
 // const maxNumber = 130;
 
 let dataLayer = {
+    getAllStreets: function() {
+        const entries = this.getAllEntries();
+        const streets = entries.map(item => item.street);
+
+        return streets;
+    },
     getAllEntries: function () {
         const data = fs.readFileSync(filename);
 
